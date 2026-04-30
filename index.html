@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saint DAC | Estúdio de Design Digital Premium</title>
+    <meta name="description" content="Elevamos o status e a conversão de negócios locais com experiências web imersivas de nível global. Design premium, SEO local e o Método Nick.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #050505;
+            --surface: #0a0a0a;
+            --accent: #ffffff;
+            --text-main: #ffffff;
+            --text-muted: #a1a1a1;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* We use a custom cursor */
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, .font-heading {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+
+        /* --- Custom Cursor --- */
+        #cursor {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+        }
+        #cursor-follower {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(2px);
+        }
+
+        /* --- Components --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .section-padding {
+            padding: 160px 0;
+        }
+
+        .glass {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: var(--accent);
+            color: var(--bg);
+            text-decoration: none;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            border: 1px solid var(--accent);
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.1);
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 24px 0;
+            transition: var(--transition);
+        }
+        nav.scrolled {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 16px 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* --- Hero Section --- */
+        .scroll-video-hero {
+            height: 500vh;
+            position: relative;
+            background: var(--bg);
+        }
+        #hero-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5000; /* Over everything but mascot/nav */
+            pointer-events: none;
+            opacity: 1;
+            transition: opacity 1s ease;
+        }
+        .hero-content {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            text-align: center;
+            padding: 0 20px;
+        }
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 8rem);
+            line-height: 0.9;
+            margin-bottom: 24px;
+        }
+        .hero-subtitle {
+            color: var(--text-muted);
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        /* --- Portfolio Section (The special request) --- */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-top: 60px;
+        }
+        .portfolio-card {
+            position: relative;
+            height: 500px;
+            border-radius: 24px;
+            overflow: hidden;
+            background: var(--surface);
+            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .portfolio-card:hover {
+            transform: scale(1.02);
+            z-index: 10;
+        }
+        .preview-container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .preview-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: filter 0.6s ease;
+            filter: grayscale(0.5);
+        }
+        .portfolio-card:hover .preview-video {
+            filter: grayscale(0);
+        }
+        .portfolio-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 40px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+        .portfolio-card:hover .portfolio-info {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .portfolio-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* --- Sections --- */
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 60px;
+        }
+        .method-item {
+            padding: 60px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 60px;
+            align-items: center;
+        }
+        .method-num {
+            font-size: 5rem;
+            opacity: 0.1;
+            font-family: 'Outfit';
+        }
+
+        /* --- Contact Form --- */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+        }
+        .form-group {
+            margin-bottom: 24px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 16px;
+            border-radius: 12px;
+            color: white;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* --- Animations --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: 1s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 968px) {
+            .portfolio-grid, .contact-container {
+                grid-template-columns: 1fr;
+            }
+            .method-item {
+                flex-direction: column;
+                text-align: center;
+                padding: 40px;
+            }
+            .director-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-padding {
+                padding: 100px 0;
+            }
+            .nav-links { display: none; }
+        }
+
+        /* --- Director Cards --- */
+        .director-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .director-card {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            background: var(--surface);
+            transition: var(--transition);
+            border: 1px solid var(--glass-border);
+        }
+        .director-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .director-img-container {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+        }
+        .director-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            filter: grayscale(0.3) contrast(1.1);
+        }
+        .director-card:hover .director-img-container img {
+            transform: scale(1.1);
+            filter: grayscale(0) contrast(1);
+        }
+        .director-info {
+            padding: 24px;
+            background: linear-gradient(to top, rgba(10,10,10,0.9), transparent);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            transform: translateY(10px);
+            transition: var(--transition);
+        }
+        .director-card:hover .director-info {
+            transform: translateY(0);
+        }
+        .director-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .director-role {
+            font-size: 0.75rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        #mascot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 180px; /* Even smaller as requested */
+            height: 180px;
+            z-index: 6000;
+            pointer-events: none;
+            transition: opacity 0.5s ease, transform 0.5s ease, width 0.5s ease, height 0.5s ease;
+            mix-blend-mode: screen;
+            filter: brightness(1.1) contrast(1.1);
+        }
+        .mascot-large {
+            width: 220px !important; /* Subtle increase for team */
+            height: 220px !important;
+            bottom: 10px !important;
+            right: 10px !important;
+        }
+        #mascot-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .mascot-flipped {
+            transform: scaleX(-1);
+        }
+        .mascot-visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .mascot-hidden {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        /* --- Director Team Animation --- */
+        .team-animation-container {
+            width: 100%;
+            height: 350px;
+            margin-top: 30px;
+            position: relative;
+            mix-blend-mode: screen;
+            filter: brightness(1.2) contrast(1.1);
+        }
+        .team-animation-video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        footer {
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="mascot-container" class="mascot-visible">
+        <video id="mascot-video" autoplay muted loop playsinline>
+            <source src="assets/VIDEOS MASCOTA/IDLE SIN FONDO.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+
+    <nav id="navbar">
+        <div class="container nav-content">
+            <div class="logo">SAINT DAC</div>
+            <div class="nav-links">
+                <a href="#portfolio">PROJETOS</a>
+                <a href="#metodo">MÉTODO</a>
+                <a href="#sobre">SOBRE</a>
+                <a href="#contato">CONTATO</a>
+            </div>
+            <a href="#contato" class="btn" style="padding: 10px 24px; font-size: 0.8rem;">START PROJECT</a>
+        </div>
+    </nav>
+
+    <section class="scroll-video-hero" id="scroll-hero">
+        <div class="scroll-video-sticky">
+            <canvas id="hero-canvas"></canvas>
+            <div class="hero-content">
+                <div class="container">
+                    <h1 class="hero-title reveal">DIGITAL<br>ARCHITECTS.</h1>
+                    <p class="hero-subtitle reveal">Transformamos negócios locais em líderes indiscutíveis através de experiências web imersivas de alto padrão.</p>
+                    <div class="reveal">
+                        <a href="#portfolio" class="btn">VIEW PROJECTS</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="metodo" class="section-padding">
+        <div class="container">
+            <h2 class="section-title reveal">A METODOLOGIA SAINT DAC</h2>
+            <div class="method-item glass reveal">
+                <div class="method-num">01</div>
+                <div>
+                    <h3>Valor Antecipado</h3>
+                    <p style="color: var(--text-muted);">Não trabalhamos com promessas vazias. Desenvolvemos seu protótipo funcional antes mesmo da primeira transação, provando autoridade na prática.</p>
+                </div>
+            </div>
+            <div class="method-item glass reveal">
+                <div class="method-num">02</div>
+                <div>
+                    <h3>Execução de Elite</h3>
+                    <p style="color: var(--text-muted);">Substituímos templates genéricos por um stack técnico de ponta (React, Vite, 3D) focado em performance extrema e design premiado.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="section-padding" style="background: var(--surface);">
+        <div class="container">
+            <h2 class="section-title reveal">SELECTED<br>WORKS</h2>
+            <div class="portfolio-grid">
+                <!-- Project 1 -->
+                <div class="portfolio-card reveal">
+                    <div class="preview-container">
+                        <video src="assets/Constructora.mp4" class="preview-video portfolio-video" loop muted playsinline></video>
+                    </div>
+                    <div class="portfolio-info">
+                        <span class="portfolio-tag">ARQUITETURA & CONSTRUÇÃO</span>
+                        <h3>Constructora Premium</h3>
+                    </div>
+                </div>
+                <!-- Project 2 -->
+                <div class="portfolio-card reveal">
+                    <div class="preview-container">
+                        <video src="assets/Inmobiliaria - Trim.mp4" class="preview-video portfolio-video" loop muted playsinline></video>
+                    </div>
+                    <div class="portfolio-info">
+                        <span class="portfolio-tag">REAL ESTATE</span>
+                        <h3>Boutique Imóveis</h3>
+                    </div>
+                </div>
+                <!-- Project 3 -->
+                <div class="portfolio-card reveal">
+                    <div class="preview-container">
+                        <video src="assets/Web Fotografo.mp4" class="preview-video portfolio-video" loop muted playsinline></video>
+                    </div>
+                    <div class="portfolio-info">
+                        <span class="portfolio-tag">FOTOGRAFIA PREMIUM</span>
+                        <h3>Estúdio Fotográfico</h3>
+                    </div>
+                </div>
+                <!-- Project 4 -->
+                <div class="portfolio-card reveal">
+                    <div class="preview-container">
+                        <video src="assets/Decoración de eventos.mp4" class="preview-video portfolio-video" loop muted playsinline></video>
+                    </div>
+                    <div class="portfolio-info">
+                        <span class="portfolio-tag">EVENTOS</span>
+                        <h3>Decor & Eventos</h3>
+                    </div>
+                </div>
+                <!-- Project 5 -->
+                <div class="portfolio-card reveal">
+                    <div class="preview-container">
+                        <video src="assets/Fotografo 2.mp4" class="preview-video portfolio-video" loop muted playsinline></video>
+                    </div>
+                    <div class="portfolio-info">
+                        <span class="portfolio-tag">PORTFOLIO VISUAL</span>
+                        <h3>Visual Arts 01</h3>
+                    </div>
+                </div>
+                <!-- Project 6 -->
+                <div class="portfolio-card reveal">
+                    <div class="preview-container">
+                        <video src="assets/Fotografo 3.mp4" class="preview-video portfolio-video" loop muted playsinline></video>
+                    </div>
+                    <div class="portfolio-info">
+                        <span class="portfolio-tag">PORTFOLIO VISUAL</span>
+                        <h3>Visual Arts 02</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sobre" class="section-padding">
+        <div class="container">
+            <div class="contact-container">
+                <div>
+                    <h2 class="section-title reveal" style="margin-bottom: 30px;">SOBRE<br>SAINT DAC</h2>
+                    <p class="reveal" style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 24px;">
+                        Somos um estúdio de design focado exclusivamente em elevar o padrão de negócios locais. Sabemos que você trabalha duro para oferecer excelência, mas se sua presença digital é amadora, sua autoridade desaparece em segundos.
+                    </p>
+                    <p class="reveal" style="color: var(--text-muted); font-size: 1.1rem;">
+                        Não vendemos templates. Criamos ativos digitais que posicionam sua marca como a única escolha lógica para clientes de alto padrão.
+                    </p>
+                </div>
+                <div class="reveal">
+                    <h4 class="font-heading" style="margin-bottom: 30px; color: var(--text-muted); letter-spacing: 3px; font-size: 0.8rem;">DIRETORIA</h4>
+                    
+                    <div class="director-grid">
+                        <!-- Brian Card -->
+                        <div class="director-card">
+                            <div class="director-img-container">
+                                <img src="assets/brian.jpg" alt="Brian">
+                            </div>
+                            <div class="director-info">
+                                <p class="director-name">Brian</p>
+                                <p class="director-role">Digital Architect</p>
+                            </div>
+                        </div>
+                        <!-- Pame Card -->
+                        <div class="director-card">
+                            <div class="director-img-container">
+                                <img src="assets/pame.jpg" alt="Pame">
+                            </div>
+                            <div class="director-info">
+                                <p class="director-name">Pame</p>
+                                <p class="director-role">Digital Architect</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Director cards here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contato" class="section-padding" style="background: #000;">
+        <div class="container">
+            <div class="contact-container">
+                <div class="reveal">
+                    <h2 class="section-title">START THE<br>TRANSFORMATION</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 40px;">Seu negócio não é só mais um. Seu site também não deve ser. Preencha o formulário e agende nossa chamada de 5 minutos.</p>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <p style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">Localização</p>
+                        <p>Tijucas, SC | Buenos Aires, AR</p>
+                    </div>
+                </div>
+                <div class="glass reveal" style="padding: 40px;">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label>NOME COMPLETO</label>
+                            <input type="text" placeholder="Seu nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label>WHATSAPP</label>
+                            <input type="tel" placeholder="+55 (00) 00000-0000" required>
+                        </div>
+                        <div class="form-group">
+                            <label>QUAL É O SEU NEGÓCIO?</label>
+                            <input type="text" placeholder="Ex: Clínica Odontológica" required>
+                        </div>
+                        <div class="form-group">
+                            <label>FATURAMENTO MENSAL MÉDIO</label>
+                            <select required>
+                                <option value="" disabled selected>Selecione uma faixa</option>
+                                <option value="1">Até R$ 10k</option>
+                                <option value="2">R$ 10k - R$ 30k</option>
+                                <option value="3">R$ 30k - R$ 100k</option>
+                                <option value="4">Acima de R$ 100k</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn" style="width: 100%;">SOLICITAR PROTÓTIPO GRÁTIS</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 SAINT DAC. All rights reserved. <br> High-Ticket Digital Experiences.</p>
+        </div>
+    </footer>
+
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="./assets/particle-data.js"></script>
+
+    <script>
+        // --- Custom Cursor Logic ---
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+        let mouseX = 0, mouseY = 0;
+        let followerX = 0, followerY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+        });
+
+        function animateFollower() {
+            followerX += (mouseX - followerX) * 0.1;
+            followerY += (mouseY - followerY) * 0.1;
+            follower.style.transform = `translate3d(${followerX - 20}px, ${followerY - 20}px, 0)`;
+            requestAnimationFrame(animateFollower);
+        }
+        animateFollower();
+
+        // Hover effect for cursor
+        document.querySelectorAll('a, button, .portfolio-card, select, input').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                follower.style.width = '80px';
+                follower.style.height = '80px';
+                follower.style.background = 'rgba(255,255,255,0.05)';
+                follower.style.borderColor = 'rgba(255,255,255,0.2)';
+            });
+            el.addEventListener('mouseleave', () => {
+                follower.style.width = '40px';
+                follower.style.height = '40px';
+                follower.style.background = 'rgba(255,255,255,0.02)';
+                follower.style.borderColor = 'var(--glass-border)';
+            });
+        });
+
+        // --- Navbar Scroll Effect ---
+        const nav = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // --- Reveal Animations ---
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // --- Smooth Scroll ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // --- Form Interaction ---
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Proposta enviada! Brian ou Pame entrarão em contato em breve via WhatsApp.');
+        });
+        // --- Portfolio Hover Video Playback ---
+        document.querySelectorAll('.portfolio-card').forEach(card => {
+            const video = card.querySelector('.portfolio-video');
+            if (video) {
+                card.addEventListener('mouseenter', () => {
+                    video.play().catch(() => {}); // Catch if playback fails (e.g. strict autoplay policy)
+                });
+                card.addEventListener('mouseleave', () => {
+                    video.pause();
+                });
+            }
+        });
+
+        // --- Hero Scroll Three.js Animation (Espiral Áurea -> Logo) ---
+        (function() {
+            const canvas = document.getElementById('hero-canvas');
+            const hero = document.getElementById('scroll-hero');
+            if (!canvas || !hero || typeof THREE === 'undefined' || typeof window.POS_DATA === 'undefined') return;
+
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x000000, 0.015);
+            
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 60;
+
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const count = window.POS_DATA.length / 3; 
+            const geometry = new THREE.TetrahedronGeometry(0.3);
+            const material = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9 });
+            const mesh = new THREE.InstancedMesh(geometry, material, count);
+            
+            const dummy = new THREE.Object3D();
+            const color = new THREE.Color();
+            scene.add(mesh);
+
+            let scrollProgress = 0;
+            
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            window.addEventListener('scroll', () => {
+                const scrolled = window.scrollY;
+                const windowHeight = window.innerHeight;
+                const totalHeight = document.documentElement.scrollHeight - windowHeight;
+                
+                // Accompanies the user through 70% of the site
+                const range = totalHeight * 0.7;
+                if (scrolled <= 0) scrollProgress = 0;
+                else if (scrolled >= range) scrollProgress = 1;
+                else scrollProgress = scrolled / range;
+            }, { passive: true });
+
+            const clock = new THREE.Clock();
+            const width = Math.floor(Math.sqrt(count));
+            const spacing = 1.2;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                const time = clock.getElapsedTime();
+                const t = time * 0.8; 
+                
+                // TRIPLE PHASE LOGIC:
+                // 0.0 - 0.3: Waves -> Logo (Restores the "Ocean" entry)
+                // 0.3 - 1.0: Logo -> Dispersed Particles (Bleeds through the site)
+                
+                let mix;
+                let phase; 
+                
+                if (scrollProgress <= 0.3) {
+                    phase = 0;
+                    mix = scrollProgress / 0.3;
+                } else {
+                    phase = 1;
+                    mix = (scrollProgress - 0.3) / 0.7;
+                }
+
+                const smoothMix = mix < 0.5 ? 2 * mix * mix : 1 - Math.pow(-2 * mix + 2, 2) / 2;
+                const opacity = Math.max(1.0 - Math.max(0, (scrollProgress - 0.8) * 5), 0);
+                renderer.domElement.style.opacity = opacity;
+
+                for (let i = 0; i < count; i++) {
+                    const row = Math.floor(i / width);
+                    const col = i % width;
+                    const cx = (col - width / 2) * spacing;
+                    const cz = (row - width / 2) * spacing;
+
+                    const elevation = Math.sin(cx * 0.05 + t) * Math.cos(cz * 0.05 + t) * 10.0
+                                    + Math.sin(cx * 0.1 - t * 0.5) * 3.0;
+
+                    const gridX = cx;
+                    const gridY = elevation - 15;
+                    const gridZ = cz - 20;
+
+                    const logoX = window.POS_DATA[i * 3];
+                    const logoY = window.POS_DATA[i * 3 + 1];
+                    const logoZ = window.POS_DATA[i * 3 + 2];
+
+                    const disperseX = cx * (1 + (phase === 1 ? smoothMix * 3 : 0)); 
+                    const disperseY = elevation - 10 - (phase === 1 ? smoothMix * 150 : 0); 
+                    const disperseZ = cz - 20 + (phase === 1 ? smoothMix * 10 : 0);
+
+                    let finalX, finalY, finalZ, scale;
+                    const isHidden = logoY < -100;
+
+                    if (phase === 0) {
+                        finalX = gridX + (logoX - gridX) * smoothMix;
+                        finalY = gridY + (logoY - gridY) * smoothMix;
+                        finalZ = gridZ + (logoZ - gridZ) * smoothMix;
+                        scale = 1.0;
+                    } else {
+                        finalX = logoX + (disperseX - logoX) * smoothMix;
+                        finalY = logoY + (disperseY - logoY) * smoothMix;
+                        finalZ = logoZ + (disperseZ - logoZ) * smoothMix;
+                        scale = isHidden ? 1.0 - smoothMix : 1.0;
+                    }
+
+                    dummy.position.set(finalX, finalY, finalZ);
+                    dummy.scale.set(scale, scale, scale);
+                    dummy.updateMatrix();
+                    mesh.setMatrixAt(i, dummy.matrix);
+
+                    const startHue = 0.60 + (elevation * 0.015);
+                    const startLightness = 0.25 + (elevation * 0.02);
+                    color.setHSL(startHue, 0.9, startLightness);
+                    const oceanR = color.r, oceanG = color.g, oceanB = color.b;
+                    const logoR = window.COL_DATA[i * 3];
+                    const logoG = window.COL_DATA[i * 3 + 1];
+                    const logoB = window.COL_DATA[i * 3 + 2];
+
+                    if (phase === 0) {
+                        color.setRGB(oceanR + (logoR - oceanR) * smoothMix, oceanG + (logoG - oceanG) * smoothMix, oceanB + (logoB - oceanB) * smoothMix);
+                    } else {
+                        color.setRGB(logoR + (oceanR - logoR) * smoothMix, logoG + (oceanG - logoG) * smoothMix, logoB + (oceanB - logoB) * smoothMix);
+                    }
+                    mesh.setColorAt(i, color);
+                }
+
+                mesh.instanceMatrix.needsUpdate = true;
+                if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+                renderer.render(scene, camera);
+            }
+            animate();
+        })();
+        // --- Interactive Mascot Logic (SVG Chroma Key Version) ---
+        (function() {
+            const video = document.getElementById('mascot-video');
+            const mascotContainer = document.getElementById('mascot-container');
+            const contactForm = document.getElementById('contactForm');
+            
+            let currentState = 'idle';
+
+            function changeMascotState(state) {
+                if (currentState === state) return;
+                
+                const videos = {
+                    idle: 'assets/VIDEOS MASCOTA/IDLE SIN FONDO.mp4',
+                    tech: 'assets/VIDEOS MASCOTA/TECH SIN FONDO.mp4',
+                    pointing: 'assets/VIDEOS MASCOTA/POINTING SIN FONDO CORRECTO.mp4',
+                    success: 'assets/VIDEOS MASCOTA/SUCCESS SIN FONDO.mp4',
+                    look: 'assets/VIDEOS MASCOTA/FIN DE SCROLL SIN FONDO.mp4',
+                    team: 'assets/VIDEOS MASCOTA/Pame y Brian SIN FONDO.mp4'
+                };
+
+                mascotContainer.style.opacity = '0';
+                setTimeout(() => {
+                    video.src = videos[state];
+                    
+                    if (state === 'pointing' || state === 'tech') {
+                        mascotContainer.classList.add('mascot-flipped');
+                    } else {
+                        mascotContainer.classList.remove('mascot-flipped');
+                    }
+
+                    if (state === 'team') {
+                        mascotContainer.classList.add('mascot-large');
+                    } else {
+                        mascotContainer.classList.remove('mascot-large');
+                    }
+
+                    video.play();
+                    mascotContainer.style.opacity = '1';
+                    currentState = state;
+                }, 300);
+            }
+
+            // Observer for scroll-based reactions
+            const observerOptions = { threshold: 0.2 };
+            const mascotObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (entry.target.id === 'sobre') changeMascotState('team');
+                        else if (entry.target.id === 'metodo') changeMascotState('tech');
+                        else if (entry.target.id === 'contato') changeMascotState('pointing');
+                        else if (entry.target.id === 'scroll-hero') changeMascotState('idle');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('section').forEach(section => mascotObserver.observe(section));
+
+            // Form reaction
+            contactForm.addEventListener('submit', (e) => {
+                changeMascotState('success');
+                setTimeout(() => changeMascotState('idle'), 6000);
+            });
+
+            // Idle "Look" reaction
+            let idleTimer;
+            function resetIdleTimer() {
+                clearTimeout(idleTimer);
+                if (currentState === 'look') changeMascotState('idle');
+                idleTimer = setTimeout(() => {
+                    if (window.scrollY < 500) changeMascotState('look');
+                }, 15000);
+            }
+            window.addEventListener('mousemove', resetIdleTimer);
+            window.addEventListener('scroll', resetIdleTimer);
+            resetIdleTimer();
+        })();
+    </script>
+</body>
+</html>
