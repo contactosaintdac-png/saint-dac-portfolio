@@ -147,6 +147,35 @@
         .nav-links a:hover {
             color: var(--accent);
         }
+        .lang-switcher {
+            display: flex;
+            gap: 10px;
+            margin-left: 20px;
+            padding-left: 20px;
+            border-left: 1px solid var(--glass-border);
+        }
+        .lang-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: var(--transition);
+            opacity: 0.5;
+        }
+        .lang-btn.active {
+            color: var(--accent);
+            opacity: 1;
+        }
+        .btn-whatsapp {
+            background: #25D366 !important;
+            border-color: #25D366 !important;
+            color: white !important;
+        }
+        .btn-whatsapp:hover {
+            background: transparent !important;
+            color: #25D366 !important;
+        }
 
         /* --- Hero Section --- */
         .scroll-video-hero {
@@ -465,12 +494,18 @@
         <div class="container nav-content">
             <div class="logo">SAINT DAC</div>
             <div class="nav-links">
-                <a href="#portfolio">PROJETOS</a>
-                <a href="#metodo">MÉTODO</a>
-                <a href="#sobre">SOBRE</a>
-                <a href="#contato">CONTATO</a>
+                <a href="#portfolio" data-i18n="nav_projects">PROJETOS</a>
+                <a href="#metodo" data-i18n="nav_method">MÉTODO</a>
+                <a href="#sobre" data-i18n="nav_about">SOBRE</a>
+                <a href="#contato" data-i18n="nav_contact">CONTATO</a>
             </div>
-            <a href="#contato" class="btn" style="padding: 10px 24px; font-size: 0.8rem;">START PROJECT</a>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div class="lang-switcher">
+                    <button class="lang-btn" onclick="setLanguage('pt')" id="btn-pt">PT</button>
+                    <button class="lang-btn" onclick="setLanguage('es')" id="btn-es">ES</button>
+                </div>
+                <a href="#contato" class="btn" style="padding: 10px 24px; font-size: 0.8rem;" data-i18n="btn_start">START PROJECT</a>
+            </div>
         </div>
     </nav>
 
@@ -479,39 +514,39 @@
             <canvas id="hero-canvas"></canvas>
             <div class="hero-content">
                 <div class="container">
-                    <h1 class="hero-title reveal">DIGITAL<br>ARCHITECTS.</h1>
-                    <p class="hero-subtitle reveal">Transformamos negócios locais em líderes indiscutíveis através de experiências web imersivas de alto padrão.</p>
-                    <div class="reveal">
-                        <a href="#portfolio" class="btn">VIEW PROJECTS</a>
+                    <h1 class="hero-title reveal" data-i18n="hero_title">DIGITAL<br>ARCHITECTS.</h1>
+                    <p class="hero-subtitle reveal" data-i18n="hero_subtitle">Transformamos negócios locais em líderes indiscutíveis através de experiências web imersivas de alto padrão.</p>
+                    <div class="reveal" style="display: flex; gap: 15px; justify-content: center;">
+                        <a href="#portfolio" class="btn" data-i18n="btn_view_projects">VIEW PROJECTS</a>
+                        <a href="https://wa.me/5548998198759" id="hero-whatsapp" class="btn btn-whatsapp" target="_blank" data-i18n="btn_whatsapp">WHATSAPP</a>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <section id="metodo" class="section-padding">
+       <section id="metodo" class="section-padding">
         <div class="container">
-            <h2 class="section-title reveal">A METODOLOGIA SAINT DAC</h2>
+            <h2 class="section-title reveal" data-i18n="method_title">A METODOLOGIA SAINT DAC</h2>
             <div class="method-item glass reveal">
                 <div class="method-num">01</div>
                 <div>
-                    <h3>Valor Antecipado</h3>
-                    <p style="color: var(--text-muted);">Não trabalhamos com promessas vazias. Desenvolvemos seu protótipo funcional antes mesmo da primeira transação, provando autoridade na prática.</p>
+                    <h3 data-i18n="method_1_title">Valor Antecipado</h3>
+                    <p style="color: var(--text-muted);" data-i18n="method_1_desc">Não trabalhamos com promessas vazias. Desenvolvemos seu protótipo funcional antes mesmo da primeira transação, provando autoridade na prática.</p>
                 </div>
             </div>
             <div class="method-item glass reveal">
                 <div class="method-num">02</div>
                 <div>
-                    <h3>Execução de Elite</h3>
-                    <p style="color: var(--text-muted);">Substituímos templates genéricos por um stack técnico de ponta (React, Vite, 3D) focado em performance extrema e design premiado.</p>
+                    <h3 data-i18n="method_2_title">Execução de Elite</h3>
+                    <p style="color: var(--text-muted);" data-i18n="method_2_desc">Substituímos templates genéricos por um stack técnico de ponta (React, Vite, 3D) focado em performance extrema e design premiado.</p>
                 </div>
             </div>
         </div>
+    </section>  </div>
     </section>
 
     <section id="portfolio" class="section-padding" style="background: var(--surface);">
         <div class="container">
-            <h2 class="section-title reveal">SELECTED<br>WORKS</h2>
+            <h2 class="section-title reveal" data-i18n="portfolio_title">SELECTED<br>WORKS</h2>
             <div class="portfolio-grid">
                 <!-- Project 1 -->
                 <div class="portfolio-card reveal">
@@ -581,16 +616,16 @@
         <div class="container">
             <div class="contact-container">
                 <div>
-                    <h2 class="section-title reveal" style="margin-bottom: 30px;">SOBRE<br>SAINT DAC</h2>
-                    <p class="reveal" style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 24px;">
+                    <h2 class="section-title reveal" style="margin-bottom: 30px;" data-i18n="about_title">SOBRE<br>SAINT DAC</h2>
+                    <p class="reveal" style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 24px;" data-i18n="about_p1">
                         Somos um estúdio de design focado exclusivamente em elevar o padrão de negócios locais. Sabemos que você trabalha duro para oferecer excelência, mas se sua presença digital é amadora, sua autoridade desaparece em segundos.
                     </p>
-                    <p class="reveal" style="color: var(--text-muted); font-size: 1.1rem;">
+                    <p class="reveal" style="color: var(--text-muted); font-size: 1.1rem;" data-i18n="about_p2">
                         Não vendemos templates. Criamos ativos digitais que posicionam sua marca como a única escolha lógica para clientes de alto padrão.
                     </p>
                 </div>
                 <div class="reveal">
-                    <h4 class="font-heading" style="margin-bottom: 30px; color: var(--text-muted); letter-spacing: 3px; font-size: 0.8rem;">DIRETORIA</h4>
+                    <h4 class="font-heading" style="margin-bottom: 30px; color: var(--text-muted); letter-spacing: 3px; font-size: 0.8rem;" data-i18n="about_directoria">DIRETORIA</h4>
                     
                     <div class="director-grid">
                         <!-- Brian Card -->
@@ -625,39 +660,41 @@
         <div class="container">
             <div class="contact-container">
                 <div class="reveal">
-                    <h2 class="section-title">START THE<br>TRANSFORMATION</h2>
-                    <p style="color: var(--text-muted); margin-bottom: 40px;">Seu negócio não é só mais um. Seu site também não deve ser. Preencha o formulário e agende nossa chamada de 5 minutos.</p>
+                    <h2 class="section-title" data-i18n="contact_title">START THE<br>TRANSFORMATION</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 40px;" data-i18n="contact_subtitle">Seu negócio não é só mais um. Seu site também não deve ser. Preencha o formulário e agende nossa chamada de 5 minutos.</p>
                     
-                    <div style="margin-bottom: 20px;">
-                        <p style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">Localização</p>
+                    <div style="margin-bottom: 40px;">
+                        <p style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;" data-i18n="contact_location">Localização</p>
                         <p>Tijucas, SC | Buenos Aires, AR</p>
                     </div>
+
+                    <a href="https://wa.me/5548998198759" id="contact-whatsapp" class="btn btn-whatsapp" target="_blank" style="width: 100%; text-align: center;" data-i18n="btn_whatsapp">WHATSAPP DIRECTO</a>
                 </div>
                 <div class="glass reveal" style="padding: 40px;">
                     <form id="contactForm">
                         <div class="form-group">
-                            <label>NOME COMPLETO</label>
-                            <input type="text" placeholder="Seu nome" required>
+                            <label data-i18n="form_name">NOME COMPLETO</label>
+                            <input type="text" data-i18n-placeholder="form_name_ph" placeholder="Seu nome" required>
                         </div>
                         <div class="form-group">
-                            <label>WHATSAPP</label>
+                            <label data-i18n="form_wa">WHATSAPP</label>
                             <input type="tel" placeholder="+55 (00) 00000-0000" required>
                         </div>
                         <div class="form-group">
-                            <label>QUAL É O SEU NEGÓCIO?</label>
-                            <input type="text" placeholder="Ex: Clínica Odontológica" required>
+                            <label data-i18n="form_business">QUAL É O SEU NEGÓCIO?</label>
+                            <input type="text" data-i18n-placeholder="form_business_ph" placeholder="Ex: Clínica Odontológica" required>
                         </div>
                         <div class="form-group">
-                            <label>FATURAMENTO MENSAL MÉDIO</label>
-                            <select required>
-                                <option value="" disabled selected>Selecione uma faixa</option>
-                                <option value="1">Até R$ 10k</option>
+                            <label data-i18n="form_revenue">FATURAMENTO MENSAL MÉDIO</label>
+                            <select required id="revenue-select">
+                                <option value="" disabled selected data-i18n="form_revenue_select">Selecione uma faixa</option>
+                                <option value="1" data-i18n="form_rev_1">Até R$ 10k</option>
                                 <option value="2">R$ 10k - R$ 30k</option>
                                 <option value="3">R$ 30k - R$ 100k</option>
-                                <option value="4">Acima de R$ 100k</option>
+                                <option value="4" data-i18n="form_rev_4">Acima de R$ 100k</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn" style="width: 100%;">SOLICITAR PROTÓTIPO GRÁTIS</button>
+                        <button type="submit" class="btn" style="width: 100%;" data-i18n="form_btn">SOLICITAR PROTÓTIPO GRÁTIS</button>
                     </form>
                 </div>
             </div>
@@ -977,6 +1014,112 @@
             window.addEventListener('scroll', resetIdleTimer);
             resetIdleTimer();
         })();
+
+        // --- i18n Translation Logic ---
+        const translations = {
+            pt: {
+                nav_projects: "PROJETOS",
+                nav_method: "MÉTODO",
+                nav_about: "SOBRE",
+                nav_contact: "CONTATO",
+                btn_start: "INICIAR PROJETO",
+                hero_title: "DIGITAL<br>ARCHITECTS.",
+                hero_subtitle: "Transformamos negócios locais em líderes indiscutíveis através de experiências web imersivas de alto padrão.",
+                btn_view_projects: "VER PROJETOS",
+                btn_whatsapp: "FALAR VIA WHATSAPP",
+                wa_msg: "Olá Brian, vi o portfólio da Saint DAC e gostaria de saber mais sobre a transformação digital para meu negócio.",
+                method_title: "A METODOLOGIA SAINT DAC",
+                method_1_title: "Valor Antecipado",
+                method_1_desc: "Não trabalhamos com promessas vazias. Desenvolvemos seu protótipo funcional antes mesmo da primeira transação, provando autoridade na prática.",
+                method_2_title: "Execução de Elite",
+                method_2_desc: "Substituímos templates genéricos por um stack técnico de ponta (React, Vite, 3D) focado em performance extrema e design premiado.",
+                portfolio_title: "TRABALHOS<br>SELECIONADOS",
+                about_title: "SOBRE<br>SAINT DAC",
+                about_p1: "Somos um estúdio de design focado exclusivamente em elevar o padrão de negócios locais. Sabemos que você trabalha duro para oferecer excelência, mas se sua presença digital é amadora, sua autoridade desaparece em segundos.",
+                about_p2: "Não vendemos templates. Criamos ativos digitais que posicionam sua marca como a única escolha lógica para clientes de alto padrão.",
+                about_directoria: "DIRETORIA",
+                contact_title: "INICIE A<br>TRANSFORMAÇÃO",
+                contact_subtitle: "Seu negócio não é só mais um. Seu site também não deve ser. Preencha o formulário e agende nossa chamada de 5 minutos.",
+                contact_location: "LOCALIZAÇÃO",
+                form_name: "NOME COMPLETO",
+                form_name_ph: "Seu nome",
+                form_wa: "WHATSAPP",
+                form_business: "QUAL É O SEU NEGÓCIO?",
+                form_business_ph: "Ex: Clínica Odontológica",
+                form_revenue: "FATURAMENTO MENSAL MÉDIO",
+                form_revenue_select: "Selecione uma faixa",
+                form_rev_1: "Até R$ 10k",
+                form_rev_4: "Acima de R$ 100k",
+                form_btn: "SOLICITAR PROTÓTIPO GRÁTIS"
+            },
+            es: {
+                nav_projects: "PROYECTOS",
+                nav_method: "MÉTODO",
+                nav_about: "NOSOTROS",
+                nav_contact: "CONTACTO",
+                btn_start: "INICIAR PROYECTO",
+                hero_title: "DIGITAL<br>ARCHITECTS.",
+                hero_subtitle: "Transformamos negocios locales en líderes indiscutibles a través de experiencias web inmersivas de alto estándar.",
+                btn_view_projects: "VER PROYECTOS",
+                btn_whatsapp: "HABLAR POR WHATSAPP",
+                wa_msg: "Hola Brian, vi el portafolio de Saint DAC y me gustaría saber más sobre la transformación digital para mi negocio.",
+                method_title: "LA METODOLOGÍA SAINT DAC",
+                method_1_title: "Valor Anticipado",
+                method_1_desc: "No trabajamos con promesas vacías. Desarrollamos su prototipo funcional antes de la primera transacción, demostrando autoridad en la práctica.",
+                method_2_title: "Ejecución de Élite",
+                method_2_desc: "Sustituimos plantillas genéricas por un stack técnico de vanguardia (React, Vite, 3D) enfocado en rendimiento extremo y diseño premiado.",
+                portfolio_title: "TRABAJOS<br>SELECCIONADOS",
+                about_title: "SOBRE<br>SAINT DAC",
+                about_p1: "Somos un estudio de diseño enfocado exclusivamente en elevar el estándar de los negocios locales. Sabemos que trabajas duro para ofrecer excelencia, pero si tu presencia digital es amateur, tu autoridad desaparece en segundos.",
+                about_p2: "No vendemos plantillas. Creamos activos digitales que posicionan tu marca como la única opción lógica para clientes de alto nivel.",
+                about_directoria: "DIRECCIÓN",
+                contact_title: "INICIA LA<br>TRANSFORMACIÓN",
+                contact_subtitle: "Tu negocio no es uno más. Tu sitio tampoco debería serlo. Completa el formulario y agenda nuestra llamada de 5 minutos.",
+                contact_location: "UBICACIÓN",
+                form_name: "NOMBRE COMPLETO",
+                form_name_ph: "Tu nombre",
+                form_wa: "WHATSAPP",
+                form_business: "¿CUÁL ES TU NEGOCIO?",
+                form_business_ph: "Ej: Clínica Odontológica",
+                form_revenue: "FACTURACIÓN MENSUAL MEDIA",
+                form_revenue_select: "Selecciona un rango",
+                form_rev_1: "Hasta R$ 10k",
+                form_rev_4: "Más de R$ 100k",
+                form_btn: "SOLICITAR PROTOTIPO GRATIS"
+            }
+        };
+
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[lang][key]) {
+                    el.placeholder = translations[lang][key];
+                }
+            });
+
+            // Update WhatsApp message
+            const waMsg = encodeURIComponent(translations[lang].wa_msg);
+            const waUrl = `https://wa.me/5548998198759?text=${waMsg}`;
+            document.getElementById('hero-whatsapp').href = waUrl;
+            document.getElementById('contact-whatsapp').href = waUrl;
+
+            // UI feedback
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${lang}`).classList.add('active');
+            
+            localStorage.setItem('saint_dac_lang', lang);
+        }
+
+        // Init language
+        const savedLang = localStorage.getItem('saint_dac_lang') || 'pt';
+        setLanguage(savedLang);
     </script>
 </body>
 </html>
